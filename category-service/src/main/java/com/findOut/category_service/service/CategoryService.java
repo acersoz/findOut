@@ -1,9 +1,11 @@
 package com.findOut.category_service.service;
 
-import com.findOut.category_service.model.Category;
+import com.findOut.category_service.model.dto.CategoryCreationDTO;
+import com.findOut.category_service.model.dto.CategoryDTO;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CategoryService {
-    List<Category> getAllCategories();
+    CategoryDTO createCategory(CategoryCreationDTO categoryCreationDTO);
+    Set<CategoryDTO> getAllCategoriesAsTree();
 }
