@@ -6,12 +6,14 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Node
 public class CategoryEntity {
+
+    public static final String HAS_SUBCATEGORY_RELATIONSHIP = "HAS_SUBCATEGORY";
+
     @Id
     @GeneratedValue
     private Long id;
@@ -20,6 +22,6 @@ public class CategoryEntity {
 
     private String description;
 
-    @Relationship(type = "HAS_SUBCATEGORY", direction = Relationship.Direction.OUTGOING)
-    private Set<CategoryEntity> subcategories;  // Subcategories for building the tree structure
+    @Relationship(type = HAS_SUBCATEGORY_RELATIONSHIP, direction = Relationship.Direction.OUTGOING)
+    private Set<CategoryEntity> subcategories;
 }

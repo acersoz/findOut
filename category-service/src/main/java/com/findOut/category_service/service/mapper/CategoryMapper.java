@@ -12,7 +12,6 @@ import java.util.Set;
 public interface CategoryMapper {
 
     // Map from CategoryCreationDTO to CategoryEntity
-    @Mapping(target = "subcategories", ignore = true)  // Ignore subcategories when creating a new category
     CategoryEntity toCategoryEntity(CategoryCreationDTO categoryCreationDTO);
 
     // Map from CategoryEntity to CategoryDTO
