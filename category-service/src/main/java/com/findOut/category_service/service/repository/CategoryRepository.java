@@ -9,10 +9,9 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends Neo4jRepository<CategoryEntity, Long> {
-    @Query("MATCH (parent:CategoryEntity) " +
-            "WHERE NOT (parent)-[:SUBCATEGORY_OF]->() " +
-            "OPTIONAL MATCH (parent)-[:HAS_SUBCATEGORY*]->(sub:CategoryEntity) " +
-            "WITH parent, collect(DISTINCT sub) AS subcategories " +
-            "RETURN parent {.*, subcategories: subcategories }")
-    List<CategoryEntity> getCategoryTree();
+
+    @Query("MATCH (c:CategoryEntity) " +
+            "WHERE NOT (c)-[:"+ CategoryEntity.HAS_SUBCATEGORY_RELATIONSHIP +"]->() " +
+            "RETURN c")
+    List<CategoryEntity> findLeafCategories();
 }

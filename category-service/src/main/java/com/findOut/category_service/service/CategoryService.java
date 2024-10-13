@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface CategoryService {
     CategoryDTO createCategory(CategoryCreationDTO categoryCreationDTO);
-    Set<CategoryDTO> getAllCategoriesAsTree();
+    Set<CategoryDTO> getCategories(String type);
 }
