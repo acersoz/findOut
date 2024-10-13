@@ -3,6 +3,7 @@ package com.findOut.category_service.service;
 import com.findOut.category_service.model.dto.CategoryCreationDTO;
 import com.findOut.category_service.model.dto.CategoryDTO;
 import com.findOut.category_service.model.entity.CategoryEntity;
+import com.findOut.category_service.model.enums.GetCategoriesType;
 import com.findOut.category_service.service.mapper.CategoryMapper;
 import com.findOut.category_service.service.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Set<CategoryDTO> getAllCategoriesAsTree() {
-        List<CategoryEntity> categoryEntities = categoryRepository.findAll();  // Get all categories as a list
-        Set<CategoryEntity> categoryEntitySet = new HashSet<>(categoryEntities);  // Convert list to set
-        return categoryMapper.toCategoryDTOs(categoryEntitySet);  // Map them to DTOs
+    public Set<CategoryDTO> getCategories(String type) {
+        GetCategoriesType getCategoriesType = GetCategoriesType.fromString(type);  // Convert string to enum here
+        List<CategoryEntity> categoryEntities;
+
+        // Select the correct query based on the type
+        if (getCategoriesType == GetCategoriesType.ALL) {
+            categoryEntities = categoryRepository.findAll();  // Get all categories
+        } else if (getCategoriesType == GetCategoriesType.LEAF) {
+            categoryEntities = categoryRepository.findLeafCategories();  // Get only leaf categories
+        } else {
+            throw new UnsupportedOperationException("Unsupported category type: " + getCategoriesType);
+        }
+
+        // Convert list to set and map to DTOs
+        Set<CategoryEntity> categoryEntitySet = new HashSet<>(categoryEntities);
+        return categoryMapper.toCategoryDTOs(categoryEntitySet);
     }
 }

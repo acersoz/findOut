@@ -23,10 +23,9 @@ public class CategoryController {
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
-    // API to return all categories as a tree
     @GetMapping
-    public ResponseEntity<Set<CategoryDTO>> getAllCategoriesAsTree() {
-        Set<CategoryDTO> categoryTree = categoryService.getAllCategoriesAsTree();
-        return new ResponseEntity<>(categoryTree, HttpStatus.OK);
+    public ResponseEntity<Set<CategoryDTO>> getCategories(@RequestParam(required = false, defaultValue = "all") String type) {
+        Set<CategoryDTO> categories = categoryService.getCategories(type);
+        return ResponseEntity.ok(categories);
     }
 }
